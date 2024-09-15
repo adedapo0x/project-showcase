@@ -4,6 +4,16 @@ const env = process.env.NODE_ENV || 'development'
 const config = require('./config')[env]
 const sequelize = new Sequelize(config)
 
-module.exports = sequelize
+
+const connectToDatabase = async ()=>{
+    try{
+    await sequelize.authenticate()
+    console.log("Connection to database successful")
+    } catch (e){
+        console.log("Unable to connect to database: ", e)
+    }
+}
+
+module.exports = { sequelize, connectToDatabase }
 
 

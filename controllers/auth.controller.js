@@ -22,7 +22,13 @@ const signUp = async (req, res) =>{
         if (!newUser){
             return res.status(400).json({message: 'Invalid user credentials'})
         }
-    } catch{
 
+        return res.status(201).json({status: 'success',
+        message: "User created successfully!"})
+    } catch(err){
+        console.log(err)
+        res.status(400).json({message: "Error encountered. Please check all inputted details and try again"})
     }
 }
+
+module.exports = signUp
