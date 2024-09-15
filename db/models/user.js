@@ -1,0 +1,44 @@
+'use strict';
+const {
+  DataTypes, Sequelize
+} = require('sequelize');
+const  sequelize = require('../../config/database')
+module.exports = sequelize.define('user', {
+  id: {
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+    type: DataTypes.INTEGER
+  },
+  userType: {
+    type: DataTypes.ENUM('0', '1', '2')
+  },
+  firstName: {
+    type: DataTypes.STRING
+  },
+  lastName: {
+    type: DataTypes.STRING
+  },
+  email: {
+    type: DataTypes.STRING,
+    unique: true,
+  },
+  password: {
+    type: DataTypes.STRING
+  },
+  createdAt: {
+    allowNull: false,
+    type: DataTypes.DATE
+  },
+  updatedAt: {
+    allowNull: false,
+    type: DataTypes.DATE
+  },
+  deletedAt: {
+    type: DataTypes.DATE
+  }
+}, {
+  paranoid: true,
+  freezeTableName: true,
+  modelName: 'user'
+})
