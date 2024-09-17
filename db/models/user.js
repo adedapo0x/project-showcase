@@ -1,7 +1,7 @@
+const bcrypt = require('bcrypt')
+
 'use strict';
-const {
-  Sequelize, DataTypes
-} = require('sequelize');
+const { Sequelize, DataTypes} = require('sequelize');
 const { sequelize } = require('../../config/database')
 module.exports = sequelize.define('user', {
   id: {
@@ -24,7 +24,19 @@ module.exports = sequelize.define('user', {
     unique: true
   },
   password: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  confirmPassword: {
+    type: DataTypes.VIRTUAL,
+    set(value){
+      if (value === this.password){
+        const hashedPassword = bcrypt.hashSync(value,10)
+        this.setDataValue('password', hashedPassword)
+        } else {
+        throw new Error('Password and confirm password values must be the same')
+      }
+    }
   },
   createdAt: {
     allowNull: false,
