@@ -1,7 +1,7 @@
 const user = require('../db/models/user')
 const signUp = async (req, res) =>{
     try{
-        const { userType, firstName, lastName, email, password, confirm_pw } = req.body
+        const { userType, firstName, lastName, email, password, confirmPassword } = req.body
 
         const existingUser = await user.findOne({ where: { email }})
         if (existingUser){
@@ -16,15 +16,21 @@ const signUp = async (req, res) =>{
         }
 
         const newUser = await user.create({
-            userType, firstName, lastName, email, password
-        })
+            userType, firstName, lastName, email, password, confirmPassword
+         })
+
+        const result = newUser.toJSON()
+        delete result.password
+        delete result.deletedAt
+
+
 
         if (!newUser){
             return res.status(400).json({message: 'Invalid user credentials'})
         }
 
         return res.status(201).json({status: 'success',
-        message: "User created successfully!"})
+        message: "User created successfully!", data: newUser})
     } catch(err){
         console.log(err)
         res.status(400).json({message: "Error encountered. Please check all inputted details and try again"})
