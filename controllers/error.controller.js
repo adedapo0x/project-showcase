@@ -1,3 +1,4 @@
+const AppError = require('../utils/appError')
 const sendErrorDev = (error, res) => {
     const statusCode = error.statusCode || 500
     const status = error.status || 'error'
