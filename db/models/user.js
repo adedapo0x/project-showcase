@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt')
 'use strict';
 const { Sequelize, DataTypes} = require('sequelize');
 const { sequelize } = require('../../config/database')
+const AppError = require('../../utils/appError')
+const {flatten} = require("express/lib/utils");
 module.exports = sequelize.define('user', {
   id: {
     allowNull: false,
@@ -11,21 +13,72 @@ module.exports = sequelize.define('user', {
     type: DataTypes.INTEGER
   },
   userType: {
-    type: DataTypes.ENUM('0', '1', '2')
+    type: DataTypes.ENUM('0', '1', '2'),
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: 'userType cannot be null'
+      },
+      notEmpty:{
+        msg: 'userType cannot be empty'
+      }
+    }
   },
   firstName: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: 'First Name cannot be null'
+      },
+      notEmpty:{
+        msg: 'First Name cannot be empty'
+      }
+    }
   },
   lastName: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: 'Last Name cannot be null'
+      },
+      notEmpty:{
+        msg: 'Last Name cannot be empty'
+      }
+    }
   },
   email: {
     type: DataTypes.STRING,
-    unique: true
+    unique: true,
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: 'Email cannot be null'
+      },
+      notEmpty:{
+        msg: 'Email cannot be empty'
+      },
+      isEmail: {
+        msg: 'Invalid email id'
+      }
+    }
   },
   password: {
     type: DataTypes.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notNull: {
+        msg: 'password cannot be null'
+      },
+      notEmpty:{
+        msg: 'password cannot be empty'
+      },
+      len: {
+        args: [7],
+        msg: "Password must be at least 8 characters long"
+      }
+    }
   },
   confirmPassword: {
     type: DataTypes.VIRTUAL,
@@ -34,7 +87,7 @@ module.exports = sequelize.define('user', {
         const hashedPassword = bcrypt.hashSync(value,10)
         this.setDataValue('password', hashedPassword)
         } else {
-        throw new Error('Password and confirm password values must be the same')
+        throw new AppError('Password and confirm password values must be the same', 400)
       }
     }
   },
