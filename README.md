@@ -1,7 +1,7 @@
 ## A Project Showcase API
 This was inspired by Pinterest, a social network that allows users to visually share and discover new interests, find ideas, and explore other users' content.
 
-It allows users to post their own projects, and also view and explore others' projects. Projects could be anything ranging from digital art, photography, home decor, technologies, short stories, book reviews, recipe sharing, international cuisine, personal fitness journeys, travels and adventure content, music and lifestyle and so many more. Users can post, and attach images, with descriptions as to what the project is about. 
+This API allows users to post their own projects, and also view and explore others' projects. Projects could be anything ranging from digital art, photography, home decor, technologies, short stories, book reviews, recipe sharing, international cuisine, personal fitness journeys, travels and adventure content, music and lifestyle and so many more. Users can post, and attach images, with descriptions as to what the project is about. 
 
 Implemented using Node.js, Express.js, and Sequelize ORM for Postgres DB
 
