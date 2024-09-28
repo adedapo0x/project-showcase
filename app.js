@@ -12,7 +12,6 @@ const app = express()
 app.use(express.json())
 
 app.use('/api/v1/auth', authRouter)
-app.use('/api/v1/projects', projectRouter)
 
 app.use('/*', catchAsync(async (req, res, next) => {
     throw new AppError('Route is not found', 404)
